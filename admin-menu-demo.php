@@ -2,8 +2,13 @@
 /**
  * Plugin Name: T5 Admin Menu Demo
  * Description: Load scripts and styles on specific admin menu pages
+ * Plugin URI:  https://github.com/toscho/T5-Admin-Menu-Demo
+ * Version:     2013.03.12
+ * Author:      Thomas Scholz
+ * Author URI:  http://toscho.de
+ * Licence:     MIT
+ * License URI: http://opensource.org/licenses/MIT
  */
-
 add_action( 'admin_menu', array ( 'T5_Admin_Page_Demo', 'admin_menu' ) );
 
 class T5_Admin_Page_Demo
@@ -38,8 +43,6 @@ class T5_Admin_Page_Demo
 				array ( __CLASS__, 'enqueue_script' )
 			);
 		}
-
-		//print "$main | $sub";
 	}
 
 	public static function render_page()
