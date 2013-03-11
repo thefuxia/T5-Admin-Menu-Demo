@@ -44,15 +44,39 @@ class T5_Admin_Page_Demo
 
 	public static function render_page()
 	{
-		global $hook_suffix, $pagenow, $title;
+		global $title;
 
 		print '<div class="wrap">';
 		print "<h1>$title</h1>";
-		print '$hook_suffix: ' . $hook_suffix . '<br>';
-		print '$pagenow: '     . $pagenow . '<br>';
 
 		submit_button( 'Click me!' );
-		print '</div>';
+
+		print '<h2>Global variables</h2><table class="code">';
+
+		foreach ( $GLOBALS as $key => $value )
+		{
+			print '<tr><td>$' . esc_html( $key ) . '</td><td>';
+
+			if ( ! is_scalar( $value ) )
+			{
+				print '<var>' . gettype( $value ) . '</var>';
+			}
+			else
+			{
+				if ( FALSE === $value )
+					$show = '<var>FALSE</var>';
+				elseif ( '' === $value )
+					$show = '<var>""</var>';
+				else
+					$show = esc_html( $value );
+
+				print $show;
+			}
+
+			print '</td></tr>';
+		}
+
+		print '</table></div>';
 	}
 
 	public static function enqueue_style()
