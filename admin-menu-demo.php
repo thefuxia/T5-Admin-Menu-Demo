@@ -9,35 +9,53 @@
  * Licence:     MIT
  * License URI: http://opensource.org/licenses/MIT
  */
+
 add_action( 'admin_menu', array ( 'T5_Admin_Page_Demo', 'admin_menu' ) );
 
+/**
+ * Register two admin pages and add a stylesheet and a javascript to both only.
+ * @author toscho
+ *
+ */
 class T5_Admin_Page_Demo
 {
+	/**
+	 * Register the pages and the style and script loader callbacks.
+	 *
+	 * @wp-hook admin_menu
+	 * @return  void
+	 */
 	public static function admin_menu()
 	{
+		// $main is now a slug named "toplevel_page_t5-demo"
+		// built with get_plugin_page_hookname( $menu_slug, '' )
 		$main = add_menu_page(
-			'T5 Demo',
-			'T5 Demo',
-			'manage_options',
-			't5-demo',
-			array ( __CLASS__, 'render_page' )
+			'T5 Demo',                         // page title
+			'T5 Demo',                         // menu title
+			'manage_options',                  // capability
+			't5-demo',                         // menu slug
+			array ( __CLASS__, 'render_page' ) // callback function
 		);
 
+		// $sub is now a slug named "t5-demo_page_t5-demo-sub"
+		// built with get_plugin_page_hookname( $menu_slug, $parent_slug)
 		$sub = add_submenu_page(
-			't5-demo',
-			'T5 Demo Sub',
-			'T5 Demo Sub',
-			'manage_options',
-			't5-demo-sub',
-			array ( __CLASS__, 'render_page' )
+			't5-demo',                         // parent slug
+			'T5 Demo Sub',                     // page title
+			'T5 Demo Sub',                     // menu title
+			'manage_options',                  // capability
+			't5-demo-sub',                     // menu slug
+			array ( __CLASS__, 'render_page' ) // callback function, same as above
 		);
 
 		foreach ( array ( $main, $sub ) as $slug )
 		{
+			// make sure the style callback is used on our page only
 			add_action(
 				"admin_print_styles-$slug",
 				array ( __CLASS__, 'enqueue_style' )
 			);
+			// make sure the script callback is used on our page only
 			add_action(
 				"admin_print_scripts-$slug",
 				array ( __CLASS__, 'enqueue_script' )
@@ -45,6 +63,13 @@ class T5_Admin_Page_Demo
 		}
 	}
 
+	/**
+	 * Print page output.
+	 *
+	 * @wp-hook toplevel_page_t5-demo In wp-admin/admin.php do_action($page_hook).
+	 * @wp-hook t5-demo_page_t5-demo-sub
+	 * @return  void
+	 */
 	public static function render_page()
 	{
 		global $title;
@@ -54,32 +79,10 @@ class T5_Admin_Page_Demo
 
 		submit_button( 'Click me!' );
 
-		print '<h2>Global variables</h2><table class="code">';
-
-		foreach ( $GLOBALS as $key => $value )
-		{
-			print '<tr><td>$' . esc_html( $key ) . '</td><td>';
-
-			if ( ! is_scalar( $value ) )
-			{
-				print '<var>' . gettype( $value ) . '</var>';
-			}
-			else
-			{
-				if ( FALSE === $value )
-					$show = '<var>FALSE</var>';
-				elseif ( '' === $value )
-					$show = '<var>""</var>';
-				else
-					$show = esc_html( $value );
-
-				print $show;
-			}
-
-			print '</td></tr>';
-		}
-
-		print '</table></div>';
+		$backtrace = debug_backtrace();
+		self::list_backtrace( $backtrace );
+		self::list_globals();
+		print '</div>';
 	}
 
 	public static function enqueue_style()
@@ -101,5 +104,62 @@ class T5_Admin_Page_Demo
 			TRUE
 		);
 		wp_enqueue_script( 't5_demo_js' );
+	}
+
+	protected static function list_globals()
+	{
+		print '<h2>Global variables</h2><table class="code">';
+
+		ksort( $GLOBALS );
+		foreach ( $GLOBALS as $key => $value )
+		{
+			print '<tr><td>$' . esc_html( $key ) . '</td><td>';
+
+			if ( ! is_scalar( $value ) )
+			{
+				print '<var>' . gettype( $value ) . '</var>';
+			}
+			else
+			{
+				if ( FALSE === $value )
+					$show = '<var>FALSE</var>';
+				elseif ( '' === $value )
+				$show = '<var>""</var>';
+				else
+					$show = esc_html( $value );
+
+				print $show;
+			}
+
+			print '</td></tr>';
+		}
+
+		print '</table>';
+	}
+
+	protected static function list_backtrace( $backtrace )
+	{
+		print '<h2>debug_backtrace()</h2><ol class="code">';
+
+		foreach ( $backtrace as $item )
+		{
+			print '<li>';
+			if ( isset ( $item['class'] ) )
+				print $item['class'] . $item['type'];
+
+			print $item['function'];
+
+			if ( isset ( $item['args'] ) )
+				print '<pre>args = ' . print_r( $item['args'], TRUE ) . '</pre>';
+
+			if ( isset ( $item['file'] ) )
+				print '<br>' . $item['file'] . ' line: ' . $item['line'];
+
+			print "\n";
+		}
+
+		print '</ol>';
+		// . htmlspecialchars( print_r( $back_trace, TRUE ), ENT_QUOTES, 'utf-8', FALSE ) . '</pre>';
+
 	}
 }
