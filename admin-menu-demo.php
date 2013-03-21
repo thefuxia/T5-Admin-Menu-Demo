@@ -96,6 +96,13 @@ class T5_Admin_Page_Demo
 		print '</div>';
 	}
 
+
+	/**
+	 * Print included HTML file.
+	 *
+	 * @wp-hook t5-demo_page_t5-text-included
+	 * @return  void
+	 */
 	public static function render_text_included()
 	{
 		global $title;
@@ -111,9 +118,13 @@ class T5_Admin_Page_Demo
 		print "<p class='description'>Included from <code>$file</code></p>";
 
 		print '</div>';
-
 	}
 
+	/**
+	 * Load stylesheet on our admin page only.
+	 *
+	 * @return void
+	 */
 	public static function enqueue_style()
 	{
 		wp_register_style(
@@ -123,6 +134,11 @@ class T5_Admin_Page_Demo
 		wp_enqueue_style( 't5_demo_css' );
 	}
 
+	/**
+	 * Load JavaScript on our admin page only.
+	 *
+	 * @return void
+	 */
 	public static function enqueue_script()
 	{
 		wp_register_script(
@@ -135,6 +151,11 @@ class T5_Admin_Page_Demo
 		wp_enqueue_script( 't5_demo_js' );
 	}
 
+	/**
+	 * List available global variables.
+	 *
+	 * @return void
+	 */
 	protected static function list_globals()
 	{
 		print '<h2>Global variables</h2><table class="code">';
@@ -166,6 +187,12 @@ class T5_Admin_Page_Demo
 		print '</table>';
 	}
 
+	/**
+	 * Inspect program logic.
+	 *
+	 * @param array $backtrace
+	 * @return void
+	 */
 	protected static function list_backtrace( $backtrace )
 	{
 		print '<h2>debug_backtrace()</h2><ol class="code">';
@@ -188,7 +215,5 @@ class T5_Admin_Page_Demo
 		}
 
 		print '</ol>';
-		// . htmlspecialchars( print_r( $back_trace, TRUE ), ENT_QUOTES, 'utf-8', FALSE ) . '</pre>';
-
 	}
 }
