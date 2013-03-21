@@ -61,6 +61,17 @@ class T5_Admin_Page_Demo
 				array ( __CLASS__, 'enqueue_script' )
 			);
 		}
+
+		// $sub is now a slug named "t5-demo_page_t5-demo-sub"
+		// built with get_plugin_page_hookname( $menu_slug, $parent_slug)
+		$text = add_submenu_page(
+			't5-demo',                         // parent slug
+			'Text Included',                     // page title
+			'Text Included',                     // menu title
+			'manage_options',                  // capability
+			't5-text-included',                     // menu slug
+			array ( __CLASS__, 'render_text_included' ) // callback function, same as above
+		);
 	}
 
 	/**
@@ -83,6 +94,24 @@ class T5_Admin_Page_Demo
 		self::list_backtrace( $backtrace );
 		self::list_globals();
 		print '</div>';
+	}
+
+	public static function render_text_included()
+	{
+		global $title;
+
+		print '<div class="wrap">';
+		print "<h1>$title</h1>";
+
+		$file = plugin_dir_path( __FILE__ ) . "included.html";
+
+		if ( file_exists( $file ) )
+			require $file;
+
+		print "<p class='description'>Included from <code>$file</code></p>";
+
+		print '</div>';
+
 	}
 
 	public static function enqueue_style()
