@@ -3,7 +3,7 @@
  * Plugin Name: T5 Admin Menu Demo
  * Description: Load scripts and styles on specific admin menu pages
  * Plugin URI:  https://github.com/toscho/T5-Admin-Menu-Demo
- * Version:     2013.03.12
+ * Version:     2013.03.29
  * Author:      Thomas Scholz
  * Author URI:  http://toscho.de
  * Licence:     MIT
