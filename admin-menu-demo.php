@@ -62,7 +62,7 @@ class T5_Admin_Page_Demo
 			);
 		}
 
-		// $sub is now a slug named "t5-demo_page_t5-demo-sub"
+		// $sub is now a slug named "t5-demo_page_t5-text-included"
 		// built with get_plugin_page_hookname( $menu_slug, $parent_slug)
 		$text = add_submenu_page(
 			't5-demo',                         // parent slug
