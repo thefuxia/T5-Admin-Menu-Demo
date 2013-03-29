@@ -10,10 +10,16 @@
  * License URI: http://opensource.org/licenses/MIT
  */
 
+/* call our code on admin pages only, not on front end requests or during
+ * AJAX calls.
+ * Always wait for the last possible hook to start your code.
+ */
 add_action( 'admin_menu', array ( 'T5_Admin_Page_Demo', 'admin_menu' ) );
 
 /**
- * Register two admin pages and add a stylesheet and a javascript to both only.
+ * Register three admin pages and add a stylesheet and a javascript to two of
+ * them only.
+ *
  * @author toscho
  *
  */
@@ -48,6 +54,9 @@ class T5_Admin_Page_Demo
 			array ( __CLASS__, 'render_page' ) // callback function, same as above
 		);
 
+		/* See http://wordpress.stackexchange.com/a/49994/73 for the difference
+		 * to "'admin_enqueue_scripts', $hook_suffix"
+		 */
 		foreach ( array ( $main, $sub ) as $slug )
 		{
 			// make sure the style callback is used on our page only
