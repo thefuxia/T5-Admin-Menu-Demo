@@ -38,6 +38,8 @@ class T5_Admin_Page_Demo
 		$main = add_menu_page(
 			'T5 Demo',                         // page title
 			'T5 Demo',                         // menu title
+			// Change the capability to make the pages visible for other users.
+			// See http://codex.wordpress.org/Roles_and_Capabilities
 			'manage_options',                  // capability
 			't5-demo',                         // menu slug
 			array ( __CLASS__, 'render_page' ) // callback function
@@ -71,7 +73,7 @@ class T5_Admin_Page_Demo
 			);
 		}
 
-		// $sub is now a slug named "t5-demo_page_t5-text-included"
+		// $text is now a slug named "t5-demo_page_t5-text-included"
 		// built with get_plugin_page_hookname( $menu_slug, $parent_slug)
 		$text = add_submenu_page(
 			't5-demo',                         // parent slug
