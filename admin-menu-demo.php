@@ -4,8 +4,8 @@
  * Description: Load scripts and styles on specific admin menu pages
  * Plugin URI:  https://github.com/toscho/T5-Admin-Menu-Demo
  * Version:     2013.03.29
- * Author:      Thomas Scholz
- * Author URI:  http://toscho.de
+ * Author:      Fuxia Scholz
+ * Author URI:  https://fuxia.me
  * Licence:     MIT
  * License URI: http://opensource.org/licenses/MIT
  */
