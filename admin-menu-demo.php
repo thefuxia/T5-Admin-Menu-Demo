@@ -19,9 +19,6 @@ add_action( 'admin_menu', array ( 'T5_Admin_Page_Demo', 'admin_menu' ) );
 /**
  * Register three admin pages and add a stylesheet and a javascript to two of
  * them only.
- *
- * @author toscho
- *
  */
 class T5_Admin_Page_Demo
 {
